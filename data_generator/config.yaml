@@ -1,0 +1,17 @@
+# Frame extraction settings
+fps: 0.5  # Frames per second (1 means 1 frame is saved every second)
+resolution: "640x360"  # Resolution of extracted frames (width x height)
+
+# File paths
+base_path: "/Users/ratul/Workstation/datasets/vlm/youtube"  
+video_dir: "${base_path}/videos"
+frame_dir: "${base_path}/frames"
+
+# YouTube video links
+video_links:
+  - "https://www.youtube.com/watch?v=hWp9vZ7eeaM&ab_channel=Gurka"
+  # - "https://www.youtube.com/watch?v=hWp9vZ7eeaM"
+  # - "https://www.youtube.com/watch?v=PnFhMHbcL44"
+  # - "https://www.youtube.com/watch?v=s7K23IRaLwA"
+  # - "https://www.youtube.com/watch?v=wc72kf9DWaY"
+  # - "https://www.youtube.com/watch?v=6Ce7CiQ9yk8"
