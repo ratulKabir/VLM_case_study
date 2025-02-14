@@ -64,3 +64,6 @@ pylint-report.log
 .env
 *.ini
 *.toml
+
+# Generated jsons
+vqa_generator/output_jsons
