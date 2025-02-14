@@ -1,10 +1,9 @@
 # Global parameters
 global:
-  image_folder: "/Users/ratul/Workstation/datasets/vlm/youtube/frames/video_1"  # Change to actual path
-  output_file: "./vqa_generator/vqa_pairs.json"
-  model_name: "Salesforce/blip-image-captioning-base"
+  image_folder: "/Users/ratul/Workstation/datasets/vlm/youtube/frames/video_1"
+  output_file: "./vqa_generator/output_jsons/vqa_pairs_blip.json"
+  model_type: "blip"  # Options: "blip" or "clip"
 
-# Questions
 questions:
   - What is in the image?
   - Where should the loader dig next?
@@ -20,3 +19,4 @@ questions:
   # - What is the best path to reach the pile?
   # - Is the bucket full or empty?
   # - Should the loader stop before proceeding?
+  # - Is the loader moving too fast?
