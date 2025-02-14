@@ -1,0 +1,22 @@
+# Global parameters
+global:
+  image_folder: "/Users/ratul/Workstation/datasets/vlm/youtube/frames/video_1"  # Change to actual path
+  output_file: "./vqa_generator/vqa_pairs.json"
+  model_name: "Salesforce/blip-image-captioning-base"
+
+# Questions
+questions:
+  - What is in the image?
+  - Where should the loader dig next?
+  - What action should be taken?
+  - Should the loader turn left or right?
+  # - Is the loader aligned with the pile for digging?
+  # - Should the loader lift the bucket now?
+  # - Is the loader in a good position to unload the material?
+  # - Does the loader need to adjust its position before digging?
+  # - Is there an obstacle in front of the loader?
+  # - Should the loader move forward or backward?
+  # - How far is the loader from the pile?
+  # - What is the best path to reach the pile?
+  # - Is the bucket full or empty?
+  # - Should the loader stop before proceeding?
