@@ -34,29 +34,6 @@ def create_vqa_pairs(image_folder, questions, processor, model):
 
     return vqa_data
 
-# # Load the full config
-# config = load_config()
-
-# # Extract global parameters
-# IMAGE_FOLDER = config["global"]["image_folder"]
-# OUTPUT_FILE = config["global"]["output_file"]
-# MODEL_NAME = config["global"]["model_name"]
-
-# # Load questions from config
-# questions_list = config["questions"]
-
-# # Load BLIP model dynamically from config
-# processor = BlipProcessor.from_pretrained(MODEL_NAME)
-# model = BlipForConditionalGeneration.from_pretrained(MODEL_NAME)
-
-# # Generate and save VQA pairs
-# vqa_results = create_vqa_pairs(IMAGE_FOLDER, questions_list, processor, model)
-# with open(OUTPUT_FILE, "w") as f:
-#     json.dump(vqa_results, f, indent=4)
-
-# print(f"VQA pairs generated and saved to {OUTPUT_FILE}")
-
-
 def generate_vqa():
     config = load_config()
 
