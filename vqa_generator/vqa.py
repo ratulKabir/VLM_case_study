@@ -1,14 +1,14 @@
 import os
 import json
+import torch.backends
 import yaml
 import torch
 from PIL import Image
-from transformers import BlipProcessor, BlipForConditionalGeneration
-import clip
-from torchvision import transforms
+from transformers import BlipProcessor, BlipForQuestionAnswering, Blip2Processor, Blip2ForConditionalGeneration
 
 # Load config from YAML file
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), "config.yaml")
+DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 def load_config():
     """Load configuration from config.yaml"""
@@ -18,53 +18,42 @@ def load_config():
 def load_model(model_type):
     """Load the selected model dynamically based on the config"""
     if model_type == "blip":
-        processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-        model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
-    elif model_type == "clip":
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        model, processor = clip.load("ViT-B/32", device=device)  # Load CLIP
+        processor = BlipProcessor.from_pretrained("Salesforce/blip-vqa-base")
+        model = BlipForQuestionAnswering.from_pretrained("Salesforce/blip-vqa-base").to(DEVICE, dtype=torch.float16)
+    elif model_type == "blip2":
+        processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
+        # load the model weights in float16 instead of float32
+        model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16).to(DEVICE)
     else:
         raise ValueError(f"Unsupported model type: {model_type}")
     
     return processor, model
 
-def generate_caption(image_path, processor, model, model_type):
-    """Generate captions using BLIP or CLIP"""
-    if model_type == "blip":
-        image = Image.open(image_path).convert("RGB")
-        inputs = processor(images=image, return_tensors="pt")
+def generate_answer(image_path, question, processor, model, model_type):
+    """Generate answers using BLIP or CLIP based on the image and question"""
+    image = Image.open(image_path).convert("RGB")
+
+    if model_type == "blip" or model_type == "blip2":
+        # text_prompt = f"Based on the image, {question}"  # More natural phrasing
+        inputs = processor(images=image, text=question, return_tensors="pt").to(DEVICE, dtype=torch.float16)
         output = model.generate(**inputs)
-        return processor.decode(output[0], skip_special_tokens=True)
-
-    elif model_type == "clip":
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        image = Image.open(image_path).convert("RGB")
-        preprocess = transforms.Compose([
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=(0.481, 0.457, 0.408), std=(0.268, 0.261, 0.275)),
-        ])
-        image_input = preprocess(image).unsqueeze(0).to(device)
-        
-        with torch.no_grad():
-            text_inputs = clip.tokenize(["A photo of a construction site", "A loader", "A pile of dirt"]).to(device)
-            image_features = model.encode_image(image_input)
-            text_features = model.encode_text(text_inputs)
-            similarity = (image_features @ text_features.T).softmax(dim=-1)
-        
-        best_match = ["Construction site", "Loader", "Pile of dirt"][similarity.argmax().item()]
-        return f"The image likely contains: {best_match}"
-
+        return processor.decode(output[0], skip_special_tokens=True).strip()
+    else:
+        raise ValueError(f"Unsupported model type: {model_type}")
+    
 def create_vqa_pairs(image_folder, questions, processor, model, model_type):
-    """Generate VQA pairs dynamically"""
+    """Generate VQA pairs dynamically based on both the image and the question"""
     vqa_data = []
     image_files = [f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
-    for img_file in image_files[:3]:  # Process a few images
+    for img_file in image_files[:100]:  # Process a few images
         img_path = os.path.join(image_folder, img_file)
-        caption = generate_caption(img_path, processor, model, model_type)
 
-        vqa_pairs = [{"question": q, "answer": caption} for q in questions]
+        vqa_pairs = [{"qauestion": q, "answer": generate_answer(img_path, q, processor, model, model_type)} for q in questions]
+        # for q in questions:
+        #     # q = "Question: " + q + " Answer:"
+        #     answer = generate_answer(img_path, q, processor, model, model_type)
+        #     vqa_pairs = [{"question": q, "answer": answer}]
 
         vqa_data.append({"image": img_file, "vqa_pairs": vqa_pairs})
 
@@ -76,8 +65,10 @@ def generate_vqa():
 
     # Extract global parameters
     IMAGE_FOLDER = config["global"]["image_folder"]
-    OUTPUT_FILE = config["global"]["output_file"]
     MODEL_TYPE = config["global"]["model_type"]
+    config["global"]["output_file"] = f"./vqa_generator/output_jsons/vqa_pairs_{MODEL_TYPE}.json"
+    OUTPUT_FILE = config["global"]["output_file"]
+
 
     # Load questions from config
     questions_list = config["questions"]

@@ -1,8 +1,8 @@
 # Global parameters
 global:
+  model_type: "blip"  # Options: "blip" or "blip2"
   image_folder: "/Users/ratul/Workstation/datasets/vlm/youtube/frames/video_1"
-  output_file: "./vqa_generator/output_jsons/vqa_pairs_blip.json"
-  model_type: "blip"  # Options: "blip" or "clip"
+  output_file: "./vqa_generator/output_jsons/vqa_pairs_${model_type}.json"
 
 questions:
   - What is in the image?
