@@ -6,9 +6,12 @@ global:
 
 questions:
   - What is in the image?
-  - Where should the loader dig next?
-  - What action should be taken?
-  - Should the loader turn left or right?
+  - Is there a pile nearby?
+  - Is the loader close enough to the pile to dig?
+  - Where is teh pile located?
+  # - Where should the loader dig next?
+  # - What action should be taken?
+  # - Should the loader dig left or right or nowhere?
   # - Is the loader aligned with the pile for digging?
   # - Should the loader lift the bucket now?
   # - Is the loader in a good position to unload the material?
