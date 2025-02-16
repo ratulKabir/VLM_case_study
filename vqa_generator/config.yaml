@@ -5,11 +5,13 @@ global:
   output_file: "./vqa_generator/output_jsons/vqa_pairs_${model_type}.json"
 
 questions:
-  - What is in the image?
-  - Is there a pile nearby?
+  # - What is in the image?
+  - How far in meters is the nearest pile?
   - Is the loader close enough to the pile to dig?
-  - Where is teh pile located?
-  # - Where should the loader dig next?
+  - Where is teh pile located, left, right or straight?
+  - Where should the loader dig next?
+  - Should the loader move forward or backward or no longitudinal movement?
+  - Should the loader move left or right or no lateral movement?
   # - What action should be taken?
   # - Should the loader dig left or right or nowhere?
   # - Is the loader aligned with the pile for digging?
