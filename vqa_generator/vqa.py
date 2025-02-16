@@ -49,7 +49,7 @@ def create_vqa_pairs(image_folder, questions, processor, model, model_type):
     for img_file in image_files[:100]:  # Process a few images
         img_path = os.path.join(image_folder, img_file)
 
-        vqa_pairs = [{"qauestion": q, "answer": generate_answer(img_path, q, processor, model, model_type)} for q in questions]
+        vqa_pairs = [{"question": q, "answer": generate_answer(img_path, q, processor, model, model_type)} for q in questions]
         # for q in questions:
         #     # q = "Question: " + q + " Answer:"
         #     answer = generate_answer(img_path, q, processor, model, model_type)
