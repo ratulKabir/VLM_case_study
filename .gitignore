@@ -67,3 +67,7 @@ pylint-report.log
 
 # Generated jsons
 vqa_generator/output_jsons
+runs/
+
+# Ignore saved models
+*.pt

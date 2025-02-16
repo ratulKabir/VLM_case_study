@@ -1,0 +1,7 @@
+path: /Users/ratul/Workstation/datasets/vlm/youtube/frames/dataset  # Root dataset folder
+train: images/train
+val: images/valid
+test: images/test
+
+nc: 1  # Number of classes (adjust if you labeled multiple classes)
+names: ["target_pile"]  # Change class names based on labels
