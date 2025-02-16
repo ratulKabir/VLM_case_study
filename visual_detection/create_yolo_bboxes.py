@@ -118,15 +118,15 @@ def process_images(model_path="./visual_detection/saved_models/yolov8n_custom_50
 
                 for q, a in zip(questions, answers):
                     blip_data.append({
-                        "image": os.path.basename(img_path),
+                        "image": img_path,
                         "question": q,
                         "answer": a
                     })
         # for q, a in zip(questions, answers):
         blip_data.append({
-                "image": os.path.basename(img_path),
-                "question": [f"How many piles are there in the image?"],
-                "answer": [f"{n_bbox}"]
+                "image": img_path,
+                "question": f"How many piles are there in the image?",
+                "answer": f"{n_bbox}"
             })
 
         # Print progress
