@@ -69,6 +69,7 @@ This script orchestrates a pipeline for generating, processing, and training a V
 5. **Test the VLM** (Optional)
    - Tests the trained VLM model.
    - Function: `test_vlm.test_model()`.
+   - Resulting images with correspoding QA are saved in the results folder.
 
 ## Usage
 Modify the boolean flags in the script to enable/disable specific steps:
