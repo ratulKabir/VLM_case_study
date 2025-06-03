@@ -72,3 +72,6 @@ vqa_generator/saved_model
 
 # Ignore saved models
 *.pt
+
+database/
+results/
