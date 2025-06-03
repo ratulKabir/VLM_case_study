@@ -8,7 +8,7 @@ GEN_DATA = False
 GEN_VQA_PAIRS_USING_VLM = False
 GEN_YOLO_BBOXES_AND_ACTION = False
 TRAIN_VLM = False
-TEST_VLM = True
+TEST_VLM = False
 
 if __name__ == "__main__":
     # 1. Dataset generation
