@@ -4,8 +4,8 @@ resolution: "336x336"  # Resolution of extracted frames (width x height)
 
 # File paths
 base_path: "/home/ratul/Workstation/ratul/VLM_case_study"  
-video_dir: "${base_path}/videos"
-frame_dir: "${base_path}/frames"
+video_dir: "${base_path}/database/videos"
+frame_dir: "${base_path}/database/frames"
 
 # YouTube video links
 video_links:
